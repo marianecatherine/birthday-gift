@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-deep: #4e0000;
+            --bg-bright: #b91d1d;
+            --white: #ffffff;
+            --soft-pink: #ffccd5;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle, var(--bg-bright) 0%, var(--bg-deep) 100%);
+            color: var(--white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Screen Transitions */
+        .screen {
+            text-align: center;
+            animation: fadeIn 0.6s ease-out;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .hidden { display: none; }
+
+        /* The Card Design */
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 3rem 2rem;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        h1 { font-family: 'Dancing Script', cursive; font-size: 3rem; margin-bottom: 10px; }
+
+        /* Buttons */
+        .button-group { margin-top: 30px; position: relative; height: 60px; }
+
+        button {
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-yes { background: var(--white); color: var(--bg-deep); font-size: 1.1rem; }
+        .btn-yes:hover { transform: scale(1.1); box-shadow: 0 0 20px rgba(255,255,255,0.4); }
+
+        .btn-no {
+            background: transparent;
+            border: 1px solid white !important;
+            color: white;
+            position: absolute;
+        }
+
+        /* Icon Grid for Menu */
+        .icon-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .icon-card {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 20px 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .icon-card:hover { transform: translateY(-10px); }
+        .emoji { font-size: 2.5rem; display: block; }
+
+        /* Jar of Love Bubbles */
+        .reason-bubble {
+            background: var(--white);
+            color: var(--bg-deep);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 15px;
+            font-weight: 500;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    </style>
+</head>
+<body>
+
+    <div id="landing" class="screen">
+        <div class="card">
+            <h1>Hi Baby,</h1>
+            <h2 style="font-weight: 300;">Happy Birthday! 🎂</h2>
+            <p>I made a little something for you. Want to see it?</p>
+            <div class="button-group">
+                <button class="btn-yes" onclick="startApp()">YES PLEASE</button>
+                <button id="no-btn" class="btn-no" onmouseover="moveButton()">NO</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="menu" class="screen hidden">
+        <h2 style="font-family: 'Dancing Script'; font-size: 2.5rem;">For My Favorite Person</h2>
+        <div class="icon-grid">
+            <div class="icon-card" onclick="showScreen('jar')">
+                <span class="emoji">🫙</span>
+                <span>Jar of Love</span>
+            </div>
+            <div class="icon-card" onclick="showScreen('music')">
+                <span class="emoji">🎧</span>
+                <span>Our Song</span>
+            </div>
+            <div class="icon-card" onclick="showScreen('letter')">
+                <span class="emoji">✉️</span>
+                <span>Letter</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="jar" class="screen hidden">
+        <div class="card">
+            <h3>4 Reasons I Love You</h3>
+            <div class="reason-bubble">Your laugh is my favorite sound</div>
+            <div class="reason-bubble">You make every day better</div>
+            <div class="reason-bubble">You are incredibly kind</div>
+            <div class="reason-bubble">You're my best friend</div>
+            <button style="margin-top:20px" onclick="showScreen('menu')">← Back</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+    <script>
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function startApp() {
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ffffff', '#ff0000', '#ffccd5']
+            });
+            showScreen('menu');
+        }
+
+        function moveButton() {
+            const btn = document.getElementById('no-btn');
+            // Move the button randomly within the button group
+            const x = Math.random() * 200 - 100;
+            const y = Math.random() * 100 - 50;
+            btn.style.transform = `translate(${x}px, ${y}px)`;
+        }
+    </script>
+</body>
+</html>
